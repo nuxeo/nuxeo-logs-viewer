@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<component name="org.nuxeo.logs.viewer.theme">
+
+  <require>org.nuxeo.theme.nuxeo.default</require>
+
+  <extension target="org.nuxeo.theme.styling.service" point="pages">
+
+    <themePage name="*">
+      <styles append="true">
+        <style>logs_viewer_tab</style>
+      </styles>
+    </themePage>
+
+  </extension>
+
+  <extension target="org.nuxeo.theme.styling.service" point="styles">
+
+    <style name="logs_viewer_tab">
+      <src>themes/css/logs_viewer_tab.css</src>
+    </style>
+
+  </extension>
+
+</component>

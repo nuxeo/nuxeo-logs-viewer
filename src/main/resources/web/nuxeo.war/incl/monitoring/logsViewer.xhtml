@@ -1,0 +1,101 @@
+<c:if test="true"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="http://richfaces.org/a4j"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core">
+
+  #{logsViewerActions.flushCache()}
+
+  <nxu:set var="logFiles" value="#{logsViewerActions.logFiles}" cache="true">
+    <c:if test="#{logFiles.size > 1}">
+      <div class="tabsBar subtabsBar">
+        <ul>
+          <c:forEach var="logFile" items="#{logFiles}">
+            <nxu:set var="selectedClass" value="#{nxu:test(logFile == logsViewerActions.selectedLogFile, 'selected', '')}">
+              <li class="#{selectedClass}">
+                <a href="#">#{logsViewerActions.getFileName(logFile)}</a>
+              </li>
+            </nxu:set>
+          </c:forEach>
+        </ul>
+      </div>
+    </c:if>
+  </nxu:set>
+
+  <div class="globalActions">
+    <div class="globalActionBar">
+      <div class="contextActions">
+        <h:form>
+          <h:commandButton styleClass="button"
+            value="#{messages['command.logs.viewer.DownloadLogFile']} #{logsViewerActions.getFileName(logsViewerActions.selectedLogFile)}"
+            action="#{logsViewerActions.downloadLogFile()}"/>
+        </h:form>
+      </div>
+    </div>
+  </div>
+
+  <div class="clear"></div>
+
+  <div class="textBlock codeBlock">
+    <p>...</p>
+    <div class="jsLogsViewer">
+      <c:forEach var="logLine" items="#{initialLogLines}">
+        <nxu:set var="styleClass"
+          value="#{nxu:test(logLine.status == 'DEBUG', 'debug', nxu:test(logLine.status == 'WARN', 'warning', nxu:test(logLine.status == 'ERROR', 'error', '')))}">
+          <c:if test="#{empty logLine.line}">
+            <p><f:verbatim>&amp;nbsp;</f:verbatim></p>
+          </c:if>
+          <c:if test="#{!empty logLine.line}">
+            <p class="#{styleClass}">#{logLine.line}</p>
+          </c:if>
+        </nxu:set>
+      </c:forEach>
+    </div>
+    <p><h:graphicImage value="/img/standart_waiter.gif" /></p>
+  </div>
+
+  <a4j:outputPanel id="hiddenLogsViewerPanel"
+    styleClass="displayN"
+    layout="block">
+    <a4j:form id="logsViewerHiddenLogsForm">
+      <a4j:poll interval="3000"
+        reRender="hiddenLogsViewerPanel" ignoreDupResponses="true" />
+    </a4j:form>
+
+    <div class="jsHiddenLogsViewer">
+      <c:forEach var="logLine" items="#{newLogLines}">
+        <nxu:set var="styleClass"
+          value="#{nxu:test(logLine.status == 'DEBUG', 'debug', nxu:test(logLine.status == 'WARN', 'warning', nxu:test(logLine.status == 'ERROR', 'error', '')))}">
+          <c:if test="#{empty logLine.line}">
+            <p><f:verbatim>&amp;nbsp;</f:verbatim></p>
+          </c:if>
+          <c:if test="#{!empty logLine.line}">
+            <p class="#{styleClass}">#{logLine.line}</p>
+          </c:if>
+        </nxu:set>
+      </c:forEach>
+    </div>
+
+    <script type="text/javascript">
+      var newChildren = jQuery('.jsHiddenLogsViewer p');
+      if (newChildren.length > 0) {
+        var shouldScroll = jQuery(window).scrollTop() + jQuery(window).height() === jQuery(document).height();
+
+        var existingChildrenLength = jQuery('.jsLogsViewer p').length;
+        var totalLength = existingChildrenLength + newChildren.length;
+        var exceedingChildren = totalLength - #{logsViewerActions.getLogMaxLinesCount()};
+        if (exceedingChildren > 0) {
+          jQuery('.jsLogsViewer p:lt(' + exceedingChildren + ')').remove();
+        }
+
+        jQuery('.jsLogsViewer').append(newChildren);
+
+        if(shouldScroll) {
+          jQuery(window).scrollTop(jQuery(document).height());
+        }
+      }
+    </script>
+  </a4j:outputPanel>
+
+</c:if>

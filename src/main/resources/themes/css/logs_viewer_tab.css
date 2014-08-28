@@ -1,0 +1,12 @@
+.codeBlock {
+  font-family: monospace;
+}
+
+.codeBlock p {
+  padding: 0;
+  line-height: 1.1em;
+}
+
+.codeBlock .debug {
+  font-weight: bold;
+}
