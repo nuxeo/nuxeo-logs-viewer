@@ -67,12 +67,12 @@
     <div class="jsHiddenLogsViewer">
       <c:forEach var="logLine" items="#{newLogLines}">
         <c:if test="#{empty logLine.line}">
-          <span><f:verbatim>&amp;nbsp;</f:verbatim></span>
+<span><f:verbatim>&amp;nbsp;</f:verbatim></span>
         </c:if>
         <c:if test="#{!empty logLine.line}">
           <nxu:set var="styleClass"
             value="#{nxu:test(logLine.status == 'DEBUG', 'debug', nxu:test(logLine.status == 'WARN', 'warning', nxu:test(logLine.status == 'ERROR', 'error', '')))}">
-            <span class="#{styleClass}">#{logLine.line}</span>
+<span class="#{styleClass}">#{logLine.line}</span>
           </nxu:set>
         </c:if>
       </c:forEach>
