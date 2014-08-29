@@ -54,7 +54,7 @@ public class LogsViewerActions implements Serializable {
 
     public static final String LOG_MAX_LINES_COUNT_KEY = "nuxeo.logs.viewer.max.lines.count";
 
-    public static final int LOG_MAX_LINES_COUNT = 1000;
+    public static final int LOG_MAX_LINES_COUNT = 1500;
 
     protected long logMaxLinesCount = -1;
 

@@ -37,22 +37,23 @@
 
   <div class="clear"></div>
 
+  <!-- do not format the spans as we are in a pre-wrap div -->
   <div class="textBlock codeBlock">
-    <p>...</p>
+<span>...</span>
     <div class="jsLogsViewer">
       <c:forEach var="logLine" items="#{initialLogLines}">
-        <nxu:set var="styleClass"
-          value="#{nxu:test(logLine.status == 'DEBUG', 'debug', nxu:test(logLine.status == 'WARN', 'warning', nxu:test(logLine.status == 'ERROR', 'error', '')))}">
-          <c:if test="#{empty logLine.line}">
-            <p><f:verbatim>&amp;nbsp;</f:verbatim></p>
-          </c:if>
-          <c:if test="#{!empty logLine.line}">
-            <p class="#{styleClass}">#{logLine.line}</p>
-          </c:if>
-        </nxu:set>
+        <c:if test="#{empty logLine.line}">
+<span><f:verbatim>&amp;nbsp;</f:verbatim></span>
+        </c:if>
+        <c:if test="#{!empty logLine.line}">
+          <nxu:set var="styleClass"
+            value="#{nxu:test(logLine.status == 'DEBUG', 'debug', nxu:test(logLine.status == 'WARN', 'warning', nxu:test(logLine.status == 'ERROR', 'error', '')))}">
+<span class="#{styleClass}">#{logLine.line}</span>
+          </nxu:set>
+        </c:if>
       </c:forEach>
     </div>
-    <p><h:graphicImage value="/img/standart_waiter.gif" /></p>
+<span><h:graphicImage value="/img/standart_waiter.gif" /></span>
   </div>
 
   <a4j:outputPanel id="hiddenLogsViewerPanel"
@@ -65,31 +66,31 @@
 
     <div class="jsHiddenLogsViewer">
       <c:forEach var="logLine" items="#{newLogLines}">
-        <nxu:set var="styleClass"
-          value="#{nxu:test(logLine.status == 'DEBUG', 'debug', nxu:test(logLine.status == 'WARN', 'warning', nxu:test(logLine.status == 'ERROR', 'error', '')))}">
-          <c:if test="#{empty logLine.line}">
-            <p><f:verbatim>&amp;nbsp;</f:verbatim></p>
-          </c:if>
-          <c:if test="#{!empty logLine.line}">
-            <p class="#{styleClass}">#{logLine.line}</p>
-          </c:if>
-        </nxu:set>
+        <c:if test="#{empty logLine.line}">
+          <span><f:verbatim>&amp;nbsp;</f:verbatim></span>
+        </c:if>
+        <c:if test="#{!empty logLine.line}">
+          <nxu:set var="styleClass"
+            value="#{nxu:test(logLine.status == 'DEBUG', 'debug', nxu:test(logLine.status == 'WARN', 'warning', nxu:test(logLine.status == 'ERROR', 'error', '')))}">
+            <span class="#{styleClass}">#{logLine.line}</span>
+          </nxu:set>
+        </c:if>
       </c:forEach>
     </div>
 
     <script type="text/javascript">
-      var newChildren = jQuery('.jsHiddenLogsViewer p');
+      var newChildren = jQuery('.jsHiddenLogsViewer span');
       if (newChildren.length > 0) {
         var shouldScroll = jQuery(window).scrollTop() + jQuery(window).height() === jQuery(document).height();
 
-        var existingChildrenLength = jQuery('.jsLogsViewer p').length;
-        var totalLength = existingChildrenLength + newChildren.length;
+        var existingChildren = jQuery('.jsLogsViewer span');
+        var totalLength = existingChildren.length + newChildren.length;
         var exceedingChildren = totalLength - #{logsViewerActions.getLogMaxLinesCount()};
         if (exceedingChildren > 0) {
-          jQuery('.jsLogsViewer p:lt(' + exceedingChildren + ')').remove();
+          jQuery('.jsLogsViewer span:lt(' + exceedingChildren + ')').remove();
         }
 
-        jQuery('.jsLogsViewer').append(newChildren);
+        jQuery(".jsLogsViewer").append(jQuery(".jsHiddenLogsViewer").contents());
 
         if(shouldScroll) {
           jQuery(window).scrollTop(jQuery(document).height());

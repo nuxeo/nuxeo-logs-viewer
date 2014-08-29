@@ -1,8 +1,14 @@
 .codeBlock {
   font-family: monospace;
+  white-space: pre-wrap;
 }
 
-.codeBlock p {
+.codeBlock,
+.codeBlock div {
+  line-height: 0;
+}
+
+.codeBlock span {
   padding: 0;
   line-height: 1.1em;
 }
