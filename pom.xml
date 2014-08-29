@@ -9,7 +9,7 @@
 
   <groupId>org.nuxeo.logs.viewer</groupId>
   <artifactId>nuxeo-logs-viewer</artifactId>
-  <version>5.9.5-SNAPSHOT</version>
+  <version>5.9.5</version>
   <name>Nuxeo Logs viewer</name>
   <description>Nuxeo Logs viewer</description>
 
