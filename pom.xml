@@ -49,6 +49,12 @@
     </dependency>
   </dependencies>
 
+  <scm>
+    <connection>scm:git:git://github.com/nuxeo/nuxeo-logs-viewer.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com:nuxeo/nuxeo-logs-viewer.git</developerConnection>
+    <url>https://github.com/nuxeo/nuxeo-logs-viewer</url>
+  </scm>
+
   <repositories>
     <repository>
       <id>public</id>
