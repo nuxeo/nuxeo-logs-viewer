@@ -63,10 +63,12 @@
   <a4j:outputPanel id="hiddenLogsViewerPanel"
     styleClass="displayN"
     layout="block">
-    <a4j:form id="logsViewerHiddenLogsForm">
+    <h:form id="logsViewerHiddenLogsForm">
       <a4j:poll interval="3000"
-        reRender="hiddenLogsViewerPanel" ignoreDupResponses="true" />
-    </a4j:form>
+        render="hiddenLogsViewerPanel" >
+        <a4j:attachQueue ignoreDupResponses="true"/>
+      </a4j:poll>
+    </h:form>
 
     <div class="jsHiddenLogsViewer">
       <c:forEach var="logLine" items="#{newLogLines}">
