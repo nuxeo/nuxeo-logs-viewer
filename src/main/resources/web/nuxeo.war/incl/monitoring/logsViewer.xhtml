@@ -5,20 +5,24 @@
   xmlns:c="http://java.sun.com/jstl/core"
   xmlns:f="http://java.sun.com/jsf/core">
 
-  #{logsViewerActions.flushCache()}
-
   <nxu:set var="logFiles" value="#{logsViewerActions.logFiles}" cache="true">
     <c:if test="#{logFiles.size > 1}">
       <div class="tabsBar subtabsBar">
-        <ul>
-          <c:forEach var="logFile" items="#{logFiles}">
-            <nxu:set var="selectedClass" value="#{nxu:test(logFile == logsViewerActions.selectedLogFile, 'selected', '')}">
-              <li class="#{selectedClass}">
-                <a href="#">#{logsViewerActions.getFileName(logFile)}</a>
-              </li>
-            </nxu:set>
-          </c:forEach>
-        </ul>
+        <h:form>
+          <ul>
+            <c:forEach var="logFile" items="#{logFiles}">
+              <nxu:set var="selectedClass" value="#{nxu:test(logFile == logsViewerActions.selectedLogFile, 'selected', '')}">
+                <li class="#{selectedClass}">
+                  <h:commandLink
+                    action="#{logsViewerActions.setSelectedLogFile(logFile)}"
+                    immediate="true">
+                    <h:outputText value="#{logsViewerActions.getFileName(logFile)}" />
+                  </h:commandLink>
+                </li>
+              </nxu:set>
+            </c:forEach>
+          </ul>
+        </h:form>
       </div>
     </c:if>
   </nxu:set>
@@ -39,9 +43,9 @@
 
   <!-- do not format the spans as we are in a pre-wrap div -->
   <div class="textBlock codeBlock">
-<span>...</span>
+    <span>...</span>
     <div class="jsLogsViewer">
-      <c:forEach var="logLine" items="#{initialLogLines}">
+      <c:forEach var="logLine" items="#{logsViewerActions.initialLogLines}">
         <c:if test="#{empty logLine.line}">
 <span><f:verbatim>&amp;nbsp;</f:verbatim></span>
         </c:if>
@@ -53,7 +57,7 @@
         </c:if>
       </c:forEach>
     </div>
-<span><h:graphicImage value="/img/standart_waiter.gif" /></span>
+    <span><h:graphicImage value="/img/standart_waiter.gif" /></span>
   </div>
 
   <a4j:outputPanel id="hiddenLogsViewerPanel"

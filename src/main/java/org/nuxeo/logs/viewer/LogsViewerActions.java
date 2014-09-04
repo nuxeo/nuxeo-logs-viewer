@@ -64,6 +64,8 @@ public class LogsViewerActions implements Serializable {
 
     protected long selectedLogFileLastModified = -1;
 
+    protected List<LogLine> initialLogLines;
+
     protected long bytesRead = 0;
 
     public long getLogMaxLinesCount() {
@@ -96,37 +98,38 @@ public class LogsViewerActions implements Serializable {
     }
 
     public void setSelectedLogFile(String selectedLogFile) {
+        flushCache();
         this.selectedLogFile = selectedLogFile;
-        selectedLogFileLastModified = -1;
     }
 
     public String getFileName(String logFile) {
         return FilenameUtils.getName(logFile);
     }
 
-    @Factory(value = "initialLogLines", scope = ScopeType.CONVERSATION)
     public List<LogLine> getInitialLogLines() throws IOException {
-        List<LogLine> logLines = new ArrayList<>();
-        String selectedLogFile = getSelectedLogFile();
-        if (selectedLogFile != null) {
-            File logFile = new File(selectedLogFile);
-            if (logFile.exists()) {
-                try (ReversedLinesFileReader reversedLinesFileReader = new ReversedLinesFileReader(
-                        new File(getSelectedLogFile()))) {
-                    for (int i = 0; i < getLogMaxLinesCount(); i++) {
-                        String line = reversedLinesFileReader.readLine();
-                        if (line != null) {
-                            logLines.add(0, new LogLine(line));
-                        } else {
-                            break;
+        if (initialLogLines == null) {
+            initialLogLines = new ArrayList<>();
+            String selectedLogFile = getSelectedLogFile();
+            if (selectedLogFile != null) {
+                File logFile = new File(selectedLogFile);
+                if (logFile.exists()) {
+                    try (ReversedLinesFileReader reversedLinesFileReader = new ReversedLinesFileReader(
+                            new File(getSelectedLogFile()))) {
+                        for (int i = 0; i < getLogMaxLinesCount(); i++) {
+                            String line = reversedLinesFileReader.readLine();
+                            if (line != null) {
+                                initialLogLines.add(0, new LogLine(line));
+                            } else {
+                                break;
+                            }
                         }
                     }
+                    bytesRead = logFile.length();
+                    selectedLogFileLastModified = logFile.lastModified();
                 }
-                bytesRead = logFile.length();
-                selectedLogFileLastModified = logFile.lastModified();
             }
         }
-        return logLines;
+        return initialLogLines;
     }
 
     @Factory(value = "newLogLines", scope = ScopeType.EVENT)
@@ -175,7 +178,9 @@ public class LogsViewerActions implements Serializable {
     }
 
     public void flushCache() {
-        Contexts.getConversationContext().remove("initialLogLines");
+        initialLogLines = null;
+        selectedLogFileLastModified = -1;
+        bytesRead = 0;
     }
 
     public static class LogLine {
