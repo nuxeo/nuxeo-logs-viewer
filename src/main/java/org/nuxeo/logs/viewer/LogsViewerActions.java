@@ -43,7 +43,7 @@ import org.nuxeo.launcher.config.ConfigurationGenerator;
 import org.nuxeo.runtime.api.Framework;
 
 /**
- * @since 5.9.6
+ * @since 6.0
  */
 @Scope(ScopeType.CONVERSATION)
 @Name("logsViewerActions")
