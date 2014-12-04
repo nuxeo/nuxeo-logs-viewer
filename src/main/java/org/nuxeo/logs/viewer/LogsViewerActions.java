@@ -27,7 +27,6 @@ import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.input.ReversedLinesFileReader;
-import org.apache.log4j.LogManager;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.Install;
@@ -40,7 +39,6 @@ import org.nuxeo.ecm.automation.jsf.operations.DownloadFile;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
 import org.nuxeo.launcher.config.ConfigurationGenerator;
-import org.nuxeo.log4j.Log4JHelper;
 import org.nuxeo.runtime.api.Framework;
 
 /**
@@ -83,13 +81,19 @@ public class LogsViewerActions implements Serializable {
             ConfigurationGenerator configurationGenerator = new ConfigurationGenerator();
             configurationGenerator.init();
 
-            // Get Launcher log file(s)
-            logFiles = Log4JHelper.getFileAppendersFiles(LogManager.getLoggerRepository());
+            logFiles = new ArrayList<>(configurationGenerator.getLogFiles());
+
             // Add nuxeoctl log file
             File nuxeoctlLog = new File(configurationGenerator.getLogDir(),
                     "nuxeoctl.log");
             if (nuxeoctlLog.exists()) {
                 logFiles.add(nuxeoctlLog.getAbsolutePath());
+            }
+            // Add console log file
+            File consoleLog = new File(configurationGenerator.getLogDir(),
+                    "console.log");
+            if (consoleLog.exists()) {
+                logFiles.add(consoleLog.getAbsolutePath());
             }
         }
         return logFiles;
