@@ -70,8 +70,7 @@ public class LogsViewerActions implements Serializable {
     public long getLogMaxLinesCount() {
         if (logMaxLinesCount == -1) {
             logMaxLinesCount = Integer.parseInt(
-                    Framework.getProperty(LOG_MAX_LINES_COUNT_KEY,
-                            String.valueOf(LOG_MAX_LINES_COUNT)), 10);
+                    Framework.getProperty(LOG_MAX_LINES_COUNT_KEY, String.valueOf(LOG_MAX_LINES_COUNT)), 10);
         }
         return logMaxLinesCount;
     }
@@ -84,14 +83,12 @@ public class LogsViewerActions implements Serializable {
             logFiles = new ArrayList<>(configurationGenerator.getLogFiles());
 
             // Add nuxeoctl log file
-            File nuxeoctlLog = new File(configurationGenerator.getLogDir(),
-                    "nuxeoctl.log");
+            File nuxeoctlLog = new File(configurationGenerator.getLogDir(), "nuxeoctl.log");
             if (nuxeoctlLog.exists()) {
                 logFiles.add(nuxeoctlLog.getAbsolutePath());
             }
             // Add console log file
-            File consoleLog = new File(configurationGenerator.getLogDir(),
-                    "console.log");
+            File consoleLog = new File(configurationGenerator.getLogDir(), "console.log");
             if (consoleLog.exists()) {
                 logFiles.add(consoleLog.getAbsolutePath());
             }
@@ -126,8 +123,8 @@ public class LogsViewerActions implements Serializable {
             if (selectedLogFile != null) {
                 File logFile = new File(selectedLogFile);
                 if (logFile.exists()) {
-                    try (ReversedLinesFileReader reversedLinesFileReader = new ReversedLinesFileReader(
-                            new File(getSelectedLogFile()))) {
+                    try (ReversedLinesFileReader reversedLinesFileReader = new ReversedLinesFileReader(new File(
+                            getSelectedLogFile()))) {
                         for (int i = 0; i < getLogMaxLinesCount(); i++) {
                             String line = reversedLinesFileReader.readLine();
                             if (line != null) {
@@ -151,15 +148,13 @@ public class LogsViewerActions implements Serializable {
         String selectedLogFile = getSelectedLogFile();
         if (selectedLogFile != null) {
             File logFile = new File(selectedLogFile);
-            if (logFile.exists()
-                    && logFile.lastModified() > selectedLogFileLastModified) {
+            if (logFile.exists() && logFile.lastModified() > selectedLogFileLastModified) {
                 if (bytesRead > logFile.length()) {
                     // log rotation
                     bytesRead = 0;
                 }
 
-                try (BufferedReader in = new BufferedReader(new FileReader(
-                        logFile))) {
+                try (BufferedReader in = new BufferedReader(new FileReader(logFile))) {
                     in.skip(bytesRead);
                     String line;
                     while ((line = in.readLine()) != null) {
