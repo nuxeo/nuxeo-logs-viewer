@@ -37,7 +37,7 @@ import org.nuxeo.ecm.automation.OperationChain;
 import org.nuxeo.ecm.automation.OperationContext;
 import org.nuxeo.ecm.automation.jsf.operations.DownloadFile;
 import org.nuxeo.ecm.core.api.Blob;
-import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
+import org.nuxeo.ecm.core.api.Blobs;
 import org.nuxeo.launcher.config.ConfigurationGenerator;
 import org.nuxeo.runtime.api.Framework;
 
@@ -176,7 +176,7 @@ public class LogsViewerActions implements Serializable {
 
         File logFile = new File(selectedLogFile);
         if (logFile.exists()) {
-            Blob blob = new FileBlob(logFile);
+            Blob blob = Blobs.createBlob(logFile);
             OperationChain chain = new OperationChain("DownloadServerLogFile");
             chain.add(DownloadFile.ID);
             OperationContext ctx = new OperationContext();
