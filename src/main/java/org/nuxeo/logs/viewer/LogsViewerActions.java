@@ -35,6 +35,7 @@ import org.jboss.seam.annotations.Scope;
 import org.nuxeo.ecm.automation.AutomationService;
 import org.nuxeo.ecm.automation.OperationChain;
 import org.nuxeo.ecm.automation.OperationContext;
+import org.nuxeo.ecm.automation.OperationException;
 import org.nuxeo.ecm.automation.jsf.operations.DownloadFile;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.Blobs;
@@ -168,7 +169,7 @@ public class LogsViewerActions implements Serializable {
         return logLines;
     }
 
-    public void downloadLogFile() throws Exception {
+    public void downloadLogFile() throws IOException, OperationException {
         String selectedLogFile = getSelectedLogFile();
         if (selectedLogFile == null) {
             return;
