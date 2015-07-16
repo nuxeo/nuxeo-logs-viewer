@@ -3,21 +3,21 @@
 
   <require>org.nuxeo.theme.nuxeo.default</require>
 
-  <extension target="org.nuxeo.theme.styling.service" point="pages">
+  <extension target="org.nuxeo.ecm.platform.WebResources" point="bundles">
 
-    <themePage name="*">
-      <styles append="true">
-        <style>logs_viewer_tab</style>
-      </styles>
-    </themePage>
+    <bundle name="nuxeo_includes">
+      <resources append="true">
+        <resource>logs_viewer_tab.css</resource>
+      </resources>
+    </bundle>
 
   </extension>
 
-  <extension target="org.nuxeo.theme.styling.service" point="styles">
+  <extension target="org.nuxeo.ecm.platform.WebResources" point="resources">
 
-    <style name="logs_viewer_tab">
-      <src>themes/css/logs_viewer_tab.css</src>
-    </style>
+    <resource name="logs_viewer_tab.css">
+      <path>themes/css/logs_viewer_tab.css</path>
+    </resource>
 
   </extension>
 
