@@ -41,6 +41,7 @@ import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.Blobs;
 import org.nuxeo.launcher.config.ConfigurationGenerator;
 import org.nuxeo.runtime.api.Framework;
+import org.nuxeo.runtime.services.config.ConfigurationService;
 
 /**
  * @since 6.0
@@ -70,8 +71,9 @@ public class LogsViewerActions implements Serializable {
 
     public long getLogMaxLinesCount() {
         if (logMaxLinesCount == -1) {
+            ConfigurationService cs = Framework.getService(ConfigurationService.class);
             logMaxLinesCount = Integer.parseInt(
-                    Framework.getProperty(LOG_MAX_LINES_COUNT_KEY, String.valueOf(LOG_MAX_LINES_COUNT)), 10);
+                    cs.getProperty(LOG_MAX_LINES_COUNT_KEY, String.valueOf(LOG_MAX_LINES_COUNT)), 10);
         }
         return logMaxLinesCount;
     }
