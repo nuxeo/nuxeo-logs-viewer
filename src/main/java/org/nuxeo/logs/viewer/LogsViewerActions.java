@@ -184,9 +184,10 @@ public class LogsViewerActions implements Serializable {
             Blob blob = Blobs.createBlob(logFile);
             OperationChain chain = new OperationChain("DownloadServerLogFile");
             chain.add(DownloadFile.ID);
-            OperationContext ctx = new OperationContext();
-            ctx.setInput(blob);
-            Framework.getLocalService(AutomationService.class).run(ctx, chain);
+            try (OperationContext ctx = new OperationContext()) {
+                ctx.setInput(blob);
+                Framework.getLocalService(AutomationService.class).run(ctx, chain);
+            }
         }
     }
 
@@ -208,7 +209,7 @@ public class LogsViewerActions implements Serializable {
 
         public LogLine(String line) {
             this.line = line;
-            this.status = computeStatus(line);
+            status = computeStatus(line);
         }
 
         public String getLine() {
