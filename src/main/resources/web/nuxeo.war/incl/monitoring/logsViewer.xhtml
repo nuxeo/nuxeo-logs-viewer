@@ -5,6 +5,8 @@
   xmlns:c="http://java.sun.com/jstl/core"
   xmlns:f="http://java.sun.com/jsf/core">
 
+<c:if test="#{webActions.checkFilter('only_for_manager')}">
+
   <nxu:set var="logFiles" value="#{logsViewerActions.logFiles}" cache="true">
     <c:if test="#{logFiles.size > 1}">
       <div class="tabsBar subtabsBar">
@@ -104,5 +106,7 @@
       }
     </script>
   </a4j:outputPanel>
+
+</c:if>
 
 </c:if>
