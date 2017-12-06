@@ -186,7 +186,7 @@ public class LogsViewerActions implements Serializable {
             chain.add(DownloadFile.ID);
             try (OperationContext ctx = new OperationContext()) {
                 ctx.setInput(blob);
-                Framework.getLocalService(AutomationService.class).run(ctx, chain);
+                Framework.getService(AutomationService.class).run(ctx, chain);
             }
         }
     }
