@@ -74,8 +74,7 @@ public class LogsViewerActions implements Serializable {
     public long getLogMaxLinesCount() {
         if (logMaxLinesCount == -1) {
             ConfigurationService cs = Framework.getService(ConfigurationService.class);
-            logMaxLinesCount = Integer.parseInt(
-                    cs.getProperty(LOG_MAX_LINES_COUNT_KEY, String.valueOf(LOG_MAX_LINES_COUNT)), 10);
+            logMaxLinesCount = cs.getInteger(LOG_MAX_LINES_COUNT_KEY, LOG_MAX_LINES_COUNT);
         }
         return logMaxLinesCount;
     }
